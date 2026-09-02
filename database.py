@@ -7,11 +7,14 @@ def get_connection():
     return sqlite3.connect(DB_PATH)
 
 def init_db():
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
-        
     conn = get_connection()
     cursor = conn.cursor()
+    
+    # Use DROP TABLE instead of os.remove to prevent Windows file locking errors in Streamlit
+    cursor.execute('DROP TABLE IF EXISTS settlements')
+    cursor.execute('DROP TABLE IF EXISTS payouts')
+    cursor.execute('DROP TABLE IF EXISTS cash_forecast')
+    cursor.execute('DROP TABLE IF EXISTS audit_log')
     
     cursor.execute('''
     CREATE TABLE settlements (

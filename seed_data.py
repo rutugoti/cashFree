@@ -61,9 +61,6 @@ def seed_data():
         ("STL-016", dates[6], 15000, "upi", "expected", "SYNTHETIC"),
         # Day 7
         ("STL-017", dates[7], 12000, "upi", "expected", "SYNTHETIC"),
-        # Huge Day 4/5 bumps to cover the massive 4L balance adjustments
-        ("STL-018", dates[4], 250000, "upi", "expected", "SYNTHETIC"),
-        ("STL-019", dates[5], 250000, "card", "expected", "SYNTHETIC")
     ]
     
     # Insert Live PG Data
@@ -175,9 +172,8 @@ def seed_data():
             po_id += 1
             fc_idx += 1
             
-    # Massive Flexible Payouts on Day 3 to force a crunch against the 4 Lakh balance!
-    payouts.append(("PO-054", "Ogilvy Marketing", "Q3 Campaign bonus - flexible timing", 200000, dates[3], dates[3], "IMPS"))
-    payouts.append(("PO-055", "Cloudflare Global", "Annual CDN renewal - flexible net-60", 150000, dates[3], dates[3], "IMPS"))
+    # Realistic CRITICAL bill to counteract the 8 Lakh cash pile and cause a minor 17k crunch on Day 3
+    payouts.append(("PO-054", "Income Tax Dept", "Q2 Advance Tax - Government Deadline, penalties on delay", 600000, dates[3], dates[3], "IMPS"))
             
     # Insert Payouts
     for p in payouts:

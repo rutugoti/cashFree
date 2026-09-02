@@ -4,6 +4,10 @@ from razorpay_client import RazorpayClient
 # Cache the balance in memory so we don't spam the API during the optimization loop
 _cached_balance = None
 
+def clear_cache():
+    global _cached_balance
+    _cached_balance = None
+
 def get_forecast():
     global _cached_balance
     if _cached_balance is None:

@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from database import fetch_all, execute_query
-from forecaster import get_forecast
+from forecaster import get_forecast, clear_cache
 from classifier import classify_payouts
 from optimizer import optimize_payouts
 from executor import execute_payouts
@@ -35,6 +35,7 @@ st.subheader("AI Treasury Agent for Razorpay Merchants")
 
 # Helper to reset db
 if st.sidebar.button("Reset / Reseed Data", type="secondary"):
+    clear_cache()
     seed_data()
     get_forecast()
     st.sidebar.success("Database re-seeded with Day 3 crunch scenario!")
