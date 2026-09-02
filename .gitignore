@@ -1,0 +1,7 @@
+﻿venv/
+.venv/
+__pycache__/
+cashpilot.db
+.env
+test_out.txt
+out.txt
