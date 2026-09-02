@@ -55,5 +55,19 @@ class RazorpayClient:
             res.raise_for_status()
             return res.json().get("items", [])
         except Exception as e:
+            import logging
             logging.error(f"Failed to fetch live payments: {e}")
             return []
+
+    def get_balance(self) -> float:
+        """Fetches the real RazorpayX test account balance (in Rupees)."""
+        if self.simulate: return 180000.0
+        try:
+            res = requests.get(f"{self.base_url}/balance", auth=self.auth)
+            res.raise_for_status()
+            data = res.json()
+            return data.get("balance", 0) / 100.0 # Convert paise to rupees
+        except Exception as e:
+            import logging
+            logging.error(f"Failed to fetch balance: {e}")
+            return 180000.0

@@ -1,7 +1,14 @@
 from database import fetch_all, execute_query
-from config import STARTING_BALANCE
+from razorpay_client import RazorpayClient
+
+# Cache the balance in memory so we don't spam the API during the optimization loop
+_cached_balance = None
 
 def get_forecast():
+    global _cached_balance
+    if _cached_balance is None:
+        _cached_balance = RazorpayClient().get_balance()
+        
     # Get settlements grouped by date
     settlements = fetch_all("SELECT date, SUM(amount) as total FROM settlements GROUP BY date ORDER BY date")
     inflows_by_date = {s['date']: s['total'] for s in settlements}
@@ -21,8 +28,8 @@ def get_forecast():
         list(outflows_after_dict.keys())
     )))
     
-    balance_before = STARTING_BALANCE
-    balance_after = STARTING_BALANCE
+    balance_before = _cached_balance
+    balance_after = _cached_balance
     
     execute_query("DELETE FROM cash_forecast")
     
